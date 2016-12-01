@@ -1,5 +1,4 @@
 <html>
-    <!-- Sources: ME!!!! (and maybe a little online documentation) -->
     <head>
         <title>
             Calculator
@@ -54,7 +53,7 @@
                 // Remove via div.parentNode.removeChild(div) or probably document.body.removeChild(div)
                 addStyles(this.ID, this.appearance);
                 addStyles(this.ID, this.position);
-                var messages = ["Wahoo!", "Yipee!", "Show math who's boss!"];
+                var messages = ["Wahoo!", "Yipee!", "Numbers rule!", "Show math who's boss!"];
                 document.getElementById(this.ID).innerHTML = messages[Math.floor(Math.random()*messages.length)];
                 move(this.ID, 1000);
                 document.getElementById(this.ID).onclick = function() {
