@@ -1,12 +1,26 @@
 <html>
+    <!-- Sources: ME!!!! (and maybe a little online documentation) -->
     <head>
         <title>
             Calculator
         </title>
         <script>
+            var entityNumber = 1;
+            var entities = [];
+            var intervals = {};
+            var keys = {};
+            var position = {left:0, top:-110}; // This should be the same as the left and top values for #dot.
+            window.onload = function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
+                intervals.checker = setInterval(keyResponse, 10);
+            }
+            document.onkeydown = function(event) {  // This is when a key is pressed down. This is continually called.
+                keys[String(event.keyCode)] = true;
+            }
+            document.onkeyup = function(event) {  // This is when a key is let up.
+                keys[String(event.keyCode)] = false;
+            }
             document.addEventListener("mouseup", function(){
                 setTimeout(function() {
-                    
                     if (document.getElementById("box3").value < 0) {
                         document.getElementById("box3").style.color = "red";
                     } else {
@@ -15,25 +29,62 @@
                 }, 1);
                 document.getElementById("inputOutput").style.background = hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#');
             });
+            var Entity = function(specs) {
+                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "white-space": "nowrap", "color": "white", "font-size": "2em"};
+                this.position = {"position": "absolute", "left": String(document.body.clientWidth), "top": String((document.body.clientHeight-40)*Math.random())};
+                this.ID = "e" + entityNumber;
+                entityNumber++;
+                for (var specification in specs) {
+                    switch(specification) {
+                        case "appearance":
+                            for (var item in specs.appearance) {
+                                this.appearance[item] = specs.appearance[item];
+                            }
+                            break;
+                        case "position":
+                            for (var item in specs.position) {
+                                this.position[item] = specs.position[item];
+                            }
+                            break;
+                    }
+                }
+                var div = document.createElement("div");
+                div.id = this.ID;
+                document.body.appendChild(div);  // Actually makes the div appear.
+                // Remove via div.parentNode.removeChild(div) or probably document.body.removeChild(div)
+                addStyles(this.ID, this.appearance);
+                addStyles(this.ID, this.position);
+                var messages = ["Wahoo!", "Yipee!", "Show math who's boss!"];
+                document.getElementById(this.ID).innerHTML = messages[Math.floor(Math.random()*messages.length)];
+                move(this.ID, 1000);
+                document.getElementById(this.ID).onclick = function() {
+                    var text = document.getElementById("score").innerHTML;
+                    document.getElementById("score").innerHTML = "Score: " + (Number(text.split(" ")[1])+1);
+                }
+            }
             function add() {
                 var number1 = Number(document.getElementById("box1").value);
                 var number2 = Number(document.getElementById("box2").value);
                 document.getElementById("box3").value = number1 + number2;
+                makeEntity();
             }
             function subtract() {
                 var number1 = Number(document.getElementById("box1").value);
                 var number2 = Number(document.getElementById("box2").value);
                 document.getElementById("box3").value = number1 - number2;
+                makeEntity();
             }
             function multiply() {
                 var number1 = Number(document.getElementById("box1").value);
                 var number2 = Number(document.getElementById("box2").value);
                 document.getElementById("box3").value = number1 * number2;
+                makeEntity();
             }
             function divide() {
                 var number1 = Number(document.getElementById("box1").value);
                 var number2 = Number(document.getElementById("box2").value);
                 document.getElementById("box3").value = number1 / number2;
+                makeEntity();
             }
             function exponent() {
                 var number1 = Number(document.getElementById("box1").value);
@@ -53,6 +104,7 @@
                     }
                     document.getElementById("box3").value = 1 / number3;
                 }
+                makeEntity();
             }
             function clearValue() {  // This can't be called "clear()".
                 document.getElementById("box1").value = "";
@@ -78,8 +130,11 @@
                         }, 2000);
                     }, 1100);
                 }, 1000);
+                makeEntity();
             }
-            
+            function makeEntity() {
+                entities.push(new Entity())
+            }
             function hexSet(numberList, digits, prefix) {  // prefix is optional
                 var result = "";
                 for (var number in numberList) {  // When this is done with arrays, the variable is the index.
@@ -92,18 +147,10 @@
                 }
                 return (prefix || "") + result;
             }
-            
-            var intervals = {};
-            var keys = {};
-            var position = {left:0, top:-110}; // This should be the same as the left and top values for #dot.
-            window.onload = function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
-                intervals.checker = setInterval(keyResponse, 10);
-            }
-            document.onkeydown = function(event) {  // This is when a key is pressed down. This is continually called.
-                keys[String(event.keyCode)] = true;
-            }
-            document.onkeyup = function(event) {  // This is when a key is let up.
-                keys[String(event.keyCode)] = false;
+            function addStyles(ID, styles) {
+                for (var style in styles) {
+                    document.getElementById(ID).style[style] = styles[style];
+                }
             }
             function keyResponse() {
                 for (var key in keys) {
@@ -127,6 +174,16 @@
                 document.getElementById("dot").style.left = position.left/10.0 + "em";
                 document.getElementById("dot").style.top = position.top/10.0 + "em";
             }
+            function move(ID, times) {
+                var horizontal = document.getElementById(ID).style.left;
+                horizontal = parseFloat(horizontal) - 5 + "px";
+                document.getElementById(String(ID)).style.left = horizontal;
+                if (times > 0) {
+                    setTimeout(function() {move(ID, times-1);}, 10);
+                } else {
+                    document.body.removeChild(document.getElementById(String(ID)));
+                }
+            }
         </script>
         <style>
             body {
@@ -142,6 +199,17 @@
             table {
                 text-align: center;
                 margin: auto;
+            }
+            .morph:hover {
+                border-radius: 1em;
+            }
+            #title {
+                color: black;
+                text-decoration: none;
+            }
+            #title:hover {
+                color: blue;
+                text-decoration: underline;
             }
             #inputOutput {
                 background: blue;
@@ -172,47 +240,52 @@
                 width: 5em;
                 height: 6.5em;
                 border-radius: 1em;
+                top: -110em;
             }
         </style>
     </head>
     <body>
         <h1>
-            Calculator
+            <a href="https://coolprogramminguser.github.io/Calculator/" title="Click for awesomeness" id="title"><!-- One of my wesites -->
+                Calculator
+            </a>
         </h1>
         <div id="inputOutput">
-            <input type="text" id="box1" placeholder="1st number">
-            <input type="text" id="box2" placeholder="2nd number">
+            <input type="text" class="morph" id="box1" placeholder="1st number">
+            <input type="text" class="morph" id="box2" placeholder="2nd number">
             <input type="text" id="box3" readonly="true" placeholder="Result">
         </div>
         <div id="dot">
             <table>
                 <tr>
                     <td>
-                        <button onClick="add()">+</button>
+                        <button class="morph" onClick="add()">+</button>
                     </td>
                     <td>
-                        <button onClick="subtract()">-</button>
+                        <button class="morph" onClick="subtract()">-</button>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button onClick="multiply()">*</button>
+                        <button class="morph" onClick="multiply()">*</button>
                     </td>
                     <td>
-                        <button onClick="divide()">/</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button onClick="exponent()">^</button>
+                        <button class="morph" onClick="divide()">/</button>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button onClick="clearValue()">Clear</button>
+                        <button class="morph" onClick="exponent()">^</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="morph" onClick="clearValue()">Clear</button>
                     </td>
                 </tr>
             </table>
         </div>
+        <p id="score">
+        </p>
     </body>
 </html>
