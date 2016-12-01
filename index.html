@@ -29,7 +29,7 @@
                 document.getElementById("inputOutput").style.background = hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#');
             });
             var Entity = function(specs) {
-                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "white-space": "nowrap", "color": "white", "font-size": "2em"};
+                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "white-space": "nowrap", "color": "#eeeeee", "font-size": "2em"};
                 this.position = {"position": "absolute", "left": String(document.body.clientWidth), "top": String((document.body.clientHeight-40)*Math.random())};
                 this.ID = "e" + entityNumber;
                 entityNumber++;
@@ -187,6 +187,9 @@
         <style>
             body {
                 text-align: center;
+                background: white;  /* for browsers that don't support gradients */
+                background: linear-gradient(to bottom right, red, orange, yellow, green, blue, purple);  /* put percentages to change weighting */
+                /* There are also repeating gradients. */
             }
             div {
                 position: relative;
