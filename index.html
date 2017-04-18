@@ -4,6 +4,11 @@
             Calculator
         </title>
         <script>
+            var Standards = {};
+            Standards.options = {"automation" : "none"};
+        </script>
+        <script src="https://coolprogramminguser.github.io/Standards/behavior.js"></script>
+        <script>
             var entityNumber = 1;
             var entities = [];
             var intervals = {};
@@ -186,21 +191,11 @@
         </script>
         <style>
             body {
-                text-align: center;
-                background: white;  /* for browsers that don't support gradients */
                 background: linear-gradient(to bottom right, red, orange, yellow, green, blue, purple);  /* put percentages to change weighting */
                 /* There are also repeating gradients. */
             }
             div {
                 position: relative;
-                margin: auto;
-            }
-            input {
-                text-align: center;
-            }
-            table {
-                text-align: center;
-                margin: auto;
             }
             .morph:hover {
                 border-radius: 1em;
@@ -248,7 +243,7 @@
     </head>
     <body>
         <h1>
-            <a href="https://coolprogramminguser.github.io/Calculator/" title="Click for awesomeness" id="title"><!-- One of my wesites -->
+            <a href="https://coolprogramminguser.github.io/Calculator/turnedInVersion" title="Click for awesomeness" id="title"><!-- One of my wesites -->
                 Calculator
             </a>
         </h1>
