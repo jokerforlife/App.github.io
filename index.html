@@ -17,15 +17,18 @@
             var intervals = {};
             var keys = {};
             var position = {left:0, top:-110}; // This should be the same as the left and top values for #dot.
-            window.onload = function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
+            window.addEventListener("load", function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
                 intervals.checker = setInterval(keyResponse, 10);
-            }
-            document.onkeydown = function(event) {  // This is when a key is pressed down. This is continually called.
+            });
+            document.addEventListener("keydown", function(event) {  // This is when a key is pressed down. This is continually called.
+                if (checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
+                    event.preventDefault();
+                }
                 keys[String(event.keyCode)] = true;
-            }
-            document.onkeyup = function(event) {  // This is when a key is let up.
+            });
+            document.addEventListener("keyup", function(event) {  // This is when a key is let up.
                 keys[String(event.keyCode)] = false;
-            }
+            });
             document.addEventListener("mouseup", function(){
                 setTimeout(function() {
                     if (document.getElementById("box3").value < 0) {
@@ -266,6 +269,7 @@
             <input type="text" class="morph" id="box2" placeholder="2nd number">
             <input type="text" id="box3" readonly="true" placeholder="Result">
         </div>
+        <br>
         <div id="dot">
             <table>
                 <tr>
