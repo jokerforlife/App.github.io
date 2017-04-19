@@ -44,20 +44,20 @@
                 this.position = {"position": "absolute", "left": String(document.body.clientWidth), "top": String((document.body.clientHeight-40)*Math.random())};
                 this.ID = "e" + entityNumber;
                 entityNumber++;
-                for (var specification in specs) {
+                specs.forEach(function(value, specification) {
                     switch(specification) {
                         case "appearance":
-                            for (var item in specs.appearance) {
-                                this.appearance[item] = specs.appearance[item];
-                            }
+                            value.forEach(function(feature, key) {
+                                this.appearance[key] = feature;
+                            });
                             break;
                         case "position":
-                            for (var item in specs.position) {
-                                this.position[item] = specs.position[item];
-                            }
+                            value.forEach(function(place, key) {
+                                this.position[key] = place;
+                            });
                             break;
                     }
-                }
+                });
                 var div = document.createElement("div");
                 div.id = this.ID;
                 document.body.appendChild(div);  // Actually makes the div appear.
@@ -147,14 +147,14 @@
             }
             function hexSet(numberList, digits, prefix) {  // prefix is optional
                 var result = "";
-                for (var number in numberList) {  // When this is done with arrays, the variable is the index.
-                    number = Math.round(numberList[number]);
+                numberList.forEach(function(number) {
+                    number = Math.round(number);
                     number = number.toString(16);
                     while (number.length < digits) {
                         number = "0" + number;
                     }
                     result += number;
-                }
+                });
                 return (prefix || "") + result;
             }
             function addStyles(ID, styles) {
@@ -163,8 +163,8 @@
                 });
             }
             function keyResponse() {
-                for (var key in keys) {
-                    if (keys[key] == true) {
+                keys.forEach(function(trueFalse, key) {
+                    if (trueFalse == true) {
                         switch(Number(key)) {
                             case 37:  // left arrow key is pressed
                                 position.left--;
@@ -180,7 +180,7 @@
                                 break;
                         }
                     }
-                }
+                });
                 document.getElementById("dot").style.left = position.left/10.0 + "em";
                 document.getElementById("dot").style.top = position.top/10.0 + "em";
             }
