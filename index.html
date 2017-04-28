@@ -41,7 +41,7 @@
             });
             var Entity = function(specs) {
                 specs = specs || {};
-                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "padding": ".5em", "white-space": "nowrap", "color": "white", "font-size": "2em", "text-shadow": "0em 0em .1em black, 0em 0em .1em black"};
+                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "padding": ".5em", "cursor": "pointer", "white-space": "nowrap", "color": "white", "font-size": "2em", "text-shadow": "0em 0em .1em black, 0em 0em .1em black"};
                 this.position = {"position": "absolute", "left": String(document.body.clientWidth), "top": String((document.body.clientHeight-40)*Math.random())};
                 this.ID = "e" + entityNumber;
                 entityNumber++;
