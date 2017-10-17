@@ -1,17 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html class="html-class">
     <head>
         <title>
             Calculator
         </title>
+        <script src="https://epicenterprograms.github.io/standards/behavior.js"></script>
         <script>
-            var Standards = {};
-            Standards.options = {
-                "section" : "none",
-                "title" : "none"
-            };
-        </script>
-        <script src="https://epicenterprograms.github.io/standards/oldbehavior.js"></script>
-        <script>
+            var S = Standards;
             var entityNumber = 1;
             var entities = [];
             var intervals = {};
@@ -21,7 +16,7 @@
                 intervals.checker = setInterval(keyResponse, 10);
             });
             document.addEventListener("keydown", function(event) {  // This is when a key is pressed down. This is continually called.
-                if (checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
+                if (S.checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
                     event.preventDefault();
                 }
                 keys[String(event.keyCode)] = true;
@@ -98,7 +93,7 @@
                 makeEntity();
             }
             function exponent() {
-                document.getElementById("box3").value = Math.pow(getId("box1").value, getId("box2").value);
+                document.getElementById("box3").value = Math.pow(S.getId("box1").value, S.getId("box2").value);
                 makeEntity();
             }
             function clearValue() {  // This can't be called "clear()".
@@ -128,8 +123,8 @@
                 makeEntity();
             }
             function transfer() {
-                getId("box1").value = getId("box3").value;
-                getId("box2").value = "";
+                S.getId("box1").value = S.getId("box3").value;
+                S.getId("box2").value = "";
                 makeEntity();
             }
             function makeEntity() {
@@ -185,6 +180,7 @@
                 }
             }
         </script>
+        <link rel="stylesheet" href="https://epicenterprograms.github.io/standards/formatting/foundation.css">
         <style>
             body {
                 min-height: auto;
@@ -205,6 +201,7 @@
                 border: none;
                 padding: 0em;
                 border-collapse: separate;
+                background: transparent;
             }
             .morph {
                 border: .05em solid #aaaaaa;
