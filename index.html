@@ -16,10 +16,12 @@
                 intervals.checker = setInterval(keyResponse, 10);
             });
             document.addEventListener("keydown", function(event) {  // This is when a key is pressed down. This is continually called.
-                if (S.checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
-                    event.preventDefault();
+                if (document.activeElement != document.getElementById("expression")) {  // allows navigating the expression input (and do it without moving stuff)
+                    if (S.checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
+                        event.preventDefault();
+                    }
+                    keys[String(event.keyCode)] = true;
                 }
-                keys[String(event.keyCode)] = true;
             });
             document.addEventListener("keyup", function(event) {  // This is when a key is let up.
                 keys[String(event.keyCode)] = false;
@@ -68,6 +70,7 @@
                     document.getElementById("score").innerHTML = "Score: " + (Number(text.split(" ")[1])+1);
                 });
             }
+            /*
             function add() {
                 var number1 = Number(document.getElementById("box1").value);
                 var number2 = Number(document.getElementById("box2").value);
@@ -96,6 +99,7 @@
                 document.getElementById("box3").value = Math.pow(S.getId("box1").value, S.getId("box2").value);
                 makeEntity();
             }
+            */
             function solve() {
                 let expression = document.getElementById("expression").value.trim().replace(/A-Za-z/, "");  // gets rid of anything that isn't math
                 if (expression != document.getElementById("expression").value.trim()) {
@@ -113,8 +117,11 @@
                 }
             }
             function clearValue() {  // This can't be called "clear()".
+                /*
                 document.getElementById("box1").value = "";
                 document.getElementById("box2").value = "";
+                */
+                document.getElementById("expression").value = "";
                 document.getElementById("box3").value = "";
                 keys["39"] = true;
                 setTimeout(function() {
@@ -139,8 +146,8 @@
                 makeEntity();
             }
             function transfer() {
-                S.getId("box1").value = S.getId("box3").value;
-                S.getId("box2").value = "";
+                S.getId("expression").value = S.getId("box3").value;
+                //// S.getId("box2").value = "";
                 makeEntity();
             }
             function makeEntity() {
@@ -296,6 +303,11 @@
             <button class="morph" onclick="solve()">
                 =
             </button>
+            <br>
+            <button class="morph" onclick="transfer()">
+                Ans
+            </button>
+            <br>
             <button class="morph" onclick="clearValue()">
                 Clear
             </button>
