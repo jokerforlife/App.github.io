@@ -105,7 +105,7 @@
                 if (expression != document.getElementById("expression").value.trim()) {
                     alert("Invalid characters were used in the mathematical expression.");
                 } else {
-                    expression = expression.replace(/(\(.+\)|\d+\.?\d*)\^(\(.+\)|\d+\.?\d*)/, function(match, base, exponent) {  // replaces mathematical exponent syntax with JavaScript exponent syntax
+                    expression = expression.replace(/(\(.+\)|\d+\.?\d*|\.\d+)\^(\(.+\)|\d+\.?\d*|\.\d+)/, function(match, base, exponent) {  // replaces mathematical exponent syntax with JavaScript exponent syntax
                         return "Math.pow(" + base + ", " + exponent + ")";
                     });
                     try {
