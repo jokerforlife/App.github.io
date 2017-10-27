@@ -11,7 +11,7 @@
             var entities = [];
             var intervals = {};
             var keys = {};
-            var position = {left:0, top:-110}; // This should be the same as the left and top values for #dot.
+            var position = {left:0, top:0};
             window.addEventListener("load", function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
                 intervals.checker = setInterval(keyResponse, 10);
             });
@@ -38,8 +38,9 @@
             });
             var Entity = function(specs) {
                 specs = specs || {};
-                this.appearance = {"background": "black", "background": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#')), "border-radius": "1em 0em 0em 1em", "padding": ".5em", "cursor": "pointer", "white-space": "nowrap", "color": "white", "font-size": "2em", "text-shadow": "0em 0em .1em black, 0em 0em .1em black"};
-                this.position = {"position": "absolute", "left": String(document.body.clientWidth), "top": String((document.body.clientHeight-40)*Math.random())};
+                this.appearance = {"background-color": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#'))};
+                this.position = {"top": String((document.body.clientHeight-40)*Math.random())};
+                this.className = "phrase-bullet";
                 this.ID = "e" + entityNumber;
                 entityNumber++;
                 specs.forEach(function(value, specification) {
@@ -66,9 +67,13 @@
                 document.getElementById(this.ID).innerHTML = messages[Math.floor(Math.random()*messages.length)];
                 move(this.ID, 1000);
                 document.getElementById(this.ID).addEventListener("click", function() {
-                    document.getElementById("scoreBox").style.display = "inline-block";
-                    var text = document.getElementById("score").innerHTML;
-                    document.getElementById("score").innerHTML = "Score: " + (Number(text.split(" ")[1])+1);
+                    if (document.getElementById("scoreBox").style.display == "none") {
+                        document.getElementById("scoreBox").style.display = "inline-block";
+                        document.getElementById("score").innerHTML = "Score: 1";
+                    } else {
+                        let text = document.getElementById("score").innerHTML;
+                        document.getElementById("score").innerHTML = "Score: " + (Number(text.split(" ")[1])+1);
+                    }
                 });
             }
             /*
@@ -212,9 +217,6 @@
                 background: linear-gradient(to bottom right, red, orange, yellow, green, blue, purple);  /* put percentages to change weighting */
                 /* There are also repeating gradients. */
             }
-            div {
-                position: relative;
-            }
             table {
                 border: none;
                 padding: 0em;
@@ -238,6 +240,17 @@
             }
             .morph:hover {
                 border-radius: 1em;
+            }
+            .phrase-bullet {
+                position: absolute;
+                left: 100vw;
+                border-radius: 1em 0em 0em 1em;
+                padding: .5em;
+                color: white;
+                font-size: 2em;
+                text-shadow: 0em 0em .1em black, 0em 0em .1em black;
+                white-space: nowrap;
+                cursor: pointer;
             }
             #title {
                 color: black;
@@ -270,18 +283,17 @@
                 right: 1em;
             }
             #box3 {
-                width: 8em;
                 position: absolute;
                 bottom: 1em;
-                left: 5em;
+                margin: auto;
+                width: 8em;
             }
             #dot {
-                padding: .5em;
+                position: relative
+                padding: 1em;
                 background: blue;
-                width: 5em;
-                height: 6.5em;
                 border-radius: 1em;
-                top: -110em;
+                margin: 12.2em auto 0em;
             }
             #scoreBox {
                 display: none;
@@ -314,53 +326,55 @@
             <input type="text" class="morph" id="box1" placeholder="1st number">
             <input type="text" class="morph" id="box2" placeholder="2nd number">
             -->
+            <br>
+            <div id="dot">
+                <button class="morph" onclick="solve()">
+                    =
+                </button>
+                <br>
+                <button class="morph" onclick="transfer()">
+                    Ans
+                </button>
+                <br>
+                <button class="morph" onclick="clearValue()">
+                    Clear
+                </button>
+                <table style="display:none">
+                    <tr>
+                        <td>
+                            <button class="morph" onClick="add()">+</button>
+                        </td>
+                        <td>
+                            <button class="morph" onClick="subtract()">-</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="morph" onClick="multiply()">&times;</button>
+                        </td>
+                        <td>
+                            <button class="morph" onClick="divide()">&divide;</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="morph" onClick="exponent()">^</button>
+                        </td>
+                        <td>
+                            <button class="morph" onClick="clearValue()">C</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="morph" onClick="transfer()">Ans</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br>
             <input type="text" id="box3" readonly="true" placeholder="Result">
         </div>
         <br>
-        <div id="dot">
-            <button class="morph" onclick="solve()">
-                =
-            </button>
-            <br>
-            <button class="morph" onclick="transfer()">
-                Ans
-            </button>
-            <br>
-            <button class="morph" onclick="clearValue()">
-                Clear
-            </button>
-            <table style="display:none">
-                <tr>
-                    <td>
-                        <button class="morph" onClick="add()">+</button>
-                    </td>
-                    <td>
-                        <button class="morph" onClick="subtract()">-</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="morph" onClick="multiply()">&times;</button>
-                    </td>
-                    <td>
-                        <button class="morph" onClick="divide()">&divide;</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="morph" onClick="exponent()">^</button>
-                    </td>
-                    <td>
-                        <button class="morph" onClick="clearValue()">C</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button class="morph" onClick="transfer()">Ans</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
         <div id="scoreBox">
             <p id="score"></p>
         </div>
