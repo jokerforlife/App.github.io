@@ -66,6 +66,7 @@
                 document.getElementById(this.ID).innerHTML = messages[Math.floor(Math.random()*messages.length)];
                 move(this.ID, 1000);
                 document.getElementById(this.ID).addEventListener("click", function() {
+                    document.getElementById("scoreBox").style.display = "inline-block";
                     var text = document.getElementById("score").innerHTML;
                     document.getElementById("score").innerHTML = "Score: " + (Number(text.split(" ")[1])+1);
                 });
@@ -282,6 +283,23 @@
                 border-radius: 1em;
                 top: -110em;
             }
+            #scoreBox {
+                display: none;
+                padding: 1.5em;
+                background: radial-gradient(ellipse, white, transparent, transparent);
+                -webkit-animation: pulse 1s ease infinite 0s alternate;
+                animation: pulse 1s ease infinite 0s alternate;
+            }
+            @keyframes pulse {
+                from {
+                    margin: 2em;
+                    padding: 1.5em;
+                }
+                to {
+                    margin: 0em;
+                    padding: 3.5em;
+                }
+            }
         </style>
     </head>
     <body>
@@ -343,7 +361,8 @@
                 </tr>
             </table>
         </div>
-        <p id="score">
-        </p>
+        <div id="scoreBox">
+            <p id="score"></p>
+        </div>
     </body>
 </html>
