@@ -40,7 +40,6 @@
                 specs = specs || {};
                 this.appearance = {"background-color": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#'))};
                 this.position = {"top": String((document.body.clientHeight-40)*Math.random())};
-                this.className = "phrase-bullet";
                 this.ID = "e" + entityNumber;
                 entityNumber++;
                 specs.forEach(function(value, specification) {
@@ -57,16 +56,21 @@
                             break;
                     }
                 });
-                var div = document.createElement("div");
+                let div = document.createElement("div");
                 div.id = this.ID;
+                div.className = "phrase-bullet";
                 document.body.appendChild(div);  // Actually makes the div appear.
-                // Remove via div.parentNode.removeChild(div) or probably document.body.removeChild(div)
                 addStyles(this.ID, this.appearance);
                 addStyles(this.ID, this.position);
-                var messages = ["Wahoo!", "Yipee!", "Numbers rule!", "Show math who's boss!"];
-                document.getElementById(this.ID).innerHTML = messages[Math.floor(Math.random()*messages.length)];
-                move(this.ID, 1000);
-                document.getElementById(this.ID).addEventListener("click", function() {
+                let messages = ["Wahoo!", "Yipee!", "Numbers rule!", "Show math who's boss!"];
+                div.innerHTML = messages[Math.floor(Math.random()*messages.length)];
+                div.style.left = "-25em";  // This doesn't happen immediately because of the transition.
+                setTimeout(function() {
+                    document.body.removeChild(div);
+                }, 5000);  // This is the duration of the transition.
+                //// move(this.ID, 1000);
+                div.addEventListener("click", function() {
+                    console.log(document.getElementById("scoreBox").style.display);  ////
                     if (document.getElementById("scoreBox").style.display == "none") {
                         document.getElementById("scoreBox").style.display = "inline-block";
                         document.getElementById("score").innerHTML = "Score: 1";
@@ -199,7 +203,7 @@
                 document.getElementById("dot").style.top = position.top/10.0 + "em";
             }
             function move(ID, times) {
-                var horizontal = document.getElementById(ID).style.left;
+                let horizontal = document.getElementById(ID).style.left;
                 horizontal = parseFloat(horizontal) - 5 + "px";
                 document.getElementById(String(ID)).style.left = horizontal;
                 if (times > 0) {
@@ -251,6 +255,9 @@
                 text-shadow: 0em 0em .1em black, 0em 0em .1em black;
                 white-space: nowrap;
                 cursor: pointer;
+                -webkit-transition: left 5s;
+                -ms-transition: left 5s;
+                transition: left 5s;
             }
             #title {
                 color: black;
@@ -261,10 +268,11 @@
                 text-decoration: underline;
             }
             #inputOutput {
+                position: relative;
+                border: .1em solid black;
                 background: blue;
                 width: 15em;
                 height: 15em;
-                border: .1em solid black;
             }
             #expression {
                 margin: 1em auto;
@@ -289,11 +297,11 @@
                 width: 8em;
             }
             #dot {
-                position: relative
+                position: relative;
                 padding: 1em;
                 background: blue;
                 border-radius: 1em;
-                margin: 12.2em auto 0em;
+                margin: 4.7em auto 0em;
             }
             #scoreBox {
                 display: none;
