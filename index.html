@@ -40,7 +40,7 @@
             var Entity = function(specs) {
                 specs = specs || {};
                 this.appearance = {"background-color": String(hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#'))};
-                this.position = {"top": String((document.body.clientHeight-40)*Math.random())};
+                this.position = {"top": String((document.body.clientHeight-40)*Math.random()) + "px"};
                 this.ID = "e" + entityNumber;
                 entityNumber++;
                 specs.forEach(function(value, specification) {
