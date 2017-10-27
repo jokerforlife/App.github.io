@@ -12,6 +12,7 @@
             var intervals = {};
             var keys = {};
             var position = {left:0, top:0};
+            var previousEvaluation = "";
             window.addEventListener("load", function() {  // This is what runs when the page loads; equivalent to <body onload=aFunction()>
                 intervals.checker = setInterval(keyResponse, 10);
             });
@@ -115,6 +116,8 @@
                 let expression = document.getElementById("expression").value.trim().replace(/A-Za-z/, "");  // gets rid of anything that isn't math
                 if (expression != document.getElementById("expression").value.trim()) {
                     alert("Invalid characters were used in the mathematical expression.");
+                } else if (expression == "") {
+                    return;
                 } else {
                     expression = expression.replace(/(\(.+\)|\d+\.?\d*|\.\d+)\^(\(.+\)|\d+\.?\d*|\.\d+)/, function(match, base, exponent) {  // replaces mathematical exponent syntax with JavaScript exponent syntax
                         return "Math.pow(" + base + ", " + exponent + ")";
@@ -162,7 +165,10 @@
                 makeEntity();
             }
             function makeEntity() {
-                entities.push(new Entity())
+                if (previousEvaluation != S.getId("expression").value.trim()) {
+                    entities.push(new Entity());
+                    previousEvaluation = S.getId("expression").value.trim();
+                }
             }
             function hexSet(numberList, digits, prefix) {  // prefix is optional
                 var result = "";
