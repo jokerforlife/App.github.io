@@ -18,10 +18,12 @@
             });
             document.addEventListener("keydown", function(event) {  // This is when a key is pressed down. This is continually called.
                 if (document.activeElement != document.getElementById("expression")) {  // allows navigating the expression input (and do it without moving stuff)
-                    if (S.checkAll(event.keyCode, "==", [37,38,39,40], "||")) {
+                    if (S.checkAll(event.keyCode, "==", [37,38,39,40], "||")) {  // if an arrow key was pressed
                         event.preventDefault();
                     }
                     keys[String(event.keyCode)] = true;
+                } else if (event.keyCode == 13) {  // if the "Enter" key is pressed
+                    solve();
                 }
             });
             document.addEventListener("keyup", function(event) {  // This is when a key is let up.
