@@ -30,6 +30,7 @@
                 keys[String(event.keyCode)] = false;
             });
             document.addEventListener("mouseup", function(){
+                /*
                 setTimeout(function() {
                     if (document.getElementById("box3").value < 0) {
                         document.getElementById("box3").style.color = "red";
@@ -37,6 +38,7 @@
                         document.getElementById("box3").style.color = "black";
                     }
                 }, 1);
+                */
                 document.getElementById("inputOutput").style.background = hexSet([255*Math.round(Math.random()), 255*Math.round(Math.random()), 255*Math.round(Math.random())], 2, '#');
             });
             var Entity = function(specs) {
@@ -125,7 +127,13 @@
                         return "Math.pow(" + base + ", " + exponent + ")";
                     });
                     try {
-                        document.getElementById("box3").value = eval(expression);
+                        let answer = eval(expression);
+                        document.getElementById("box3").value = answer;
+                        if (answer < 0) {
+                            document.getElementById("box3").style.color = "red";
+                        } else {
+                            document.getElementById("box3").style.color = "black";
+                        }
                         makeEntity();
                     } catch (error) {
                         alert("There was a problem interpreting your expression.");
